@@ -1,0 +1,17 @@
+export default {
+    moduleFileExtensions: ['js', 'json', 'ts'],
+    rootDir: '.',
+    testRegex: '.*\\.spec\\.ts$',
+    transform: {
+        '^.+\\.(t|j)s$': 'ts-jest',
+    },
+    collectCoverageFrom: ['src/**/*.(t|j)s'],
+    coverageDirectory: 'coverage',
+    testEnvironment: 'node',
+    moduleNameMapper: {
+        '^@modules/(.*)$': '<rootDir>/src/modules/$1',
+        '^@swagger/(.*)$': '<rootDir>/src/swagger/$1',
+        '^@config/(.*)$': '<rootDir>/src/config/$1',
+        '^@db/(.*)$': '<rootDir>/src/db/$1',
+    },
+};

@@ -1,0 +1,46 @@
+services:
+    app:
+        container_name: ddd-boilerplate-api
+        image: ddd-boilerplate-dev
+        restart: unless-stopped
+        build:
+            context: .
+            dockerfile: Dockerfile
+            target: dev
+        volumes:
+            - .:/app
+            - /app/node_modules
+        env_file:
+            - .env.development
+            - .env
+        environment:
+            - DB_HOST=host.docker.internal
+        networks:
+            - app-network
+        ports:
+            - 3000:3000
+        depends_on:
+            - database
+        command: npm run start:dev
+
+    database:
+        container_name: ddd-boilerplate_postgres_dev
+        image: postgres:16.4-alpine
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        env_file:
+            - .env.development
+        environment:
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_DATABASE}
+        networks:
+            - app-network
+        ports:
+            - 5434:5432
+
+networks:
+    app-network:
+
+volumes:
+    postgres-data:
