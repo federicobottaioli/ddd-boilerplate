@@ -1,4 +1,4 @@
-import { GetPaymentsResponseDto } from '../dto/get-payments.response.dto';
+import { GetPaymentsResponseDto } from '../dto/get-payment.response.dto';
 import { GetPaymentByIdResponseDto } from '../dto/get-payment-by-id.response.dto';
 import { GetPaymentByIdMapper } from './get-payment-by-id.mapper';
 import { Payment } from '../../domain/entities/payment';

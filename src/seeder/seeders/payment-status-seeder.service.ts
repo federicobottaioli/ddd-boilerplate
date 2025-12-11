@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaymentStatusEntity } from '@modules/payment-status/infrastructure/entities/payment-status.orm-entity';
+import { APP_LOGGER_TOKEN, type IAppLogger } from '@modules/shared/application/interfaces/app-logger';
 
 /**
  * Payment status data to seed
@@ -21,10 +22,12 @@ export class PaymentStatusSeederService {
     constructor(
         @InjectRepository(PaymentStatusEntity)
         private readonly paymentStatusRepository: Repository<PaymentStatusEntity>,
+        @Inject(APP_LOGGER_TOKEN)
+        private readonly logger: IAppLogger,
     ) {}
 
     async seed(): Promise<void> {
-        console.log('[PaymentStatusSeeder] Starting to seed payment statuses...');
+        this.logger.log('[PaymentStatusSeeder] Starting to seed payment statuses...');
 
         const statuses: PaymentStatusEntity[] = [];
 
@@ -45,9 +48,9 @@ export class PaymentStatusSeederService {
 
         if (statuses.length > 0) {
             await this.paymentStatusRepository.save(statuses);
-            console.log(`[PaymentStatusSeeder] Successfully seeded ${statuses.length} payment status records`);
+            this.logger.log(`[PaymentStatusSeeder] Successfully seeded ${statuses.length} payment status records`);
         } else {
-            console.log('[PaymentStatusSeeder] All payment statuses already exist');
+            this.logger.log('[PaymentStatusSeeder] All payment statuses already exist');
         }
     }
 }

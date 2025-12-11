@@ -1,7 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import { AppConfig, ENVIRONMENT, LOG_LEVEL } from './app-config.type';
 
-import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, Max, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 import validateConfig from '../helpers/validate-config';
 
 class EnvVariablesValidator {

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { Payment, PaymentStatusEnum } from '../entities/payment';
+import { Payment } from '../entities/payment';
 import { PaymentRepository } from '../repositories/payment.repository';
 import { PaymentGatewayPort } from '../ports/payment-gateway.port';
 import { TransactionRepository } from '@modules/transaction/domain/repositories/transaction.repository';
@@ -347,7 +347,7 @@ export class PaymentService {
         // Process refund in a transaction
         return await this.dataSource.transaction(async () => {
             // Call gateway to refund
-            const refundResponse = await this.paymentGateway.refund(captureTransaction.gatewayTransactionId, refundAmount);
+            const refundResponse = await this.paymentGateway.refund(captureTransaction.gatewayTransactionId || '', refundAmount);
 
             // Create refund transaction
             const refundTransaction = Transaction.create({

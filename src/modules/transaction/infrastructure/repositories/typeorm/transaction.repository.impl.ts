@@ -43,7 +43,9 @@ export class TransactionRepositoryImpl implements TransactionRepository {
 
     async update(id: string, updates: Partial<Transaction>): Promise<Transaction> {
         const entityUpdates = TransactionMapper.toEntityUpdate(updates);
-        await this.transactionTypeOrmRepository.update(id, entityUpdates);
+        // TypeORM's update method requires specific typing for JSONB fields
+        // The mapper already excludes relation fields, so we can safely cast
+        await this.transactionTypeOrmRepository.update(id, entityUpdates as any);
         const updatedTransaction = await this.findById(id);
         if (!updatedTransaction) {
             throw new Error(`Transaction with id ${id} not found after update`);

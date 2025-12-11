@@ -44,7 +44,8 @@ export class PaymentRepositoryImpl implements PaymentRepository {
 
     async update(id: string, updates: Partial<Payment>): Promise<Payment> {
         const entityUpdates = PaymentMapper.toEntityUpdate(updates);
-        await this.paymentTypeOrmRepository.update(id, entityUpdates);
+        // TypeORM's update method requires specific typing for JSONB fields
+        await this.paymentTypeOrmRepository.update(id, entityUpdates as any);
         const updatedPayment = await this.findById(id);
         if (!updatedPayment) {
             throw new NotFoundException(`Payment with id ${id} not found after update`);
